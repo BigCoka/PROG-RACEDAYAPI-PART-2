@@ -1,0 +1,30 @@
+RaceDayAPI - ASP.NET Core Web API
+
+Welcome to RaceDayAPI! This is a robust RESTful backend built with ASP.NET Core 8.0 and C# to power the RaceDay sports event management platform. Rather than relying on complicated migration tools, the API connects directly to a relational SQL Server database (`RaceDayDB`) managed through SQL Server Management Studio (SSMS) using Entity Framework Core, keeping your data architecture clean, transparent, and fully aligned with your project requirements.
+
+Getting Started & Setup
+
+Getting the project up and running on your local machine is straightforward. First, clone this repository and open the solution in Visual Studio 2022. Make sure your local SQL Server instance is active and that you have created and populated your `RaceDayDB` database using your POE Part 1 SQL script. Double-check that your connection string in `appsettings.json` points properly to your local server instance:
+
+json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=RaceDayDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+}
+
+
+Core Features & Endpoints
+The API is structured around several modular controllers designed to handle every aspect of a race day experience:
+
+Authentication (/api/auth): Handles secure user onboarding. You can register new accounts as either an Organiser or a Participant, where passwords are automatically secured using BCrypt hashing. The login endpoint verifies these credentials before granting access.
+
+Events (/api/events): Gives organisers full control over scheduling. Anyone can view upcoming road running and cycling events or look up specific event details, while authorised organisers can create, update, or remove events from the platform.
+
+Categories (/api/events/{eventId}/categories): Allows organisers to set up specific distance categories and entry fees (such as a Full Marathon or a 10km Fun Run) linked directly to their events, complete with built-in validation rules.
+
+Enrolments & Results (/api/enrolments): Manages participant race entries while preventing duplicate registrations. Participants can view their active enrolments and historical race times, and organisers can log finish times and overall competition placements.
+
+User Profiles (/api/users): Provides a secure profile lookup endpoint (/api/users/profile/{id}) so users can see their account details alongside their created events or active race registrations.
+
+
+Database Architecture
+The backend relies on six fully normalized relational tables inside RaceDayDB: the Users table for credentials and roles; Events for race scheduling; Categories for distance parameters and entry fees; Enrolments for participant bookings; Results for tracking finish times and positions; and Routes for GPX data links and elevation specifications.
